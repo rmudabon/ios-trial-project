@@ -9,8 +9,15 @@ import Foundation
 
 struct Constants {
     static let baseURL = "https://63c14da499c0a15d28e672cf.mockapi.io/ios-trial"
-    static let endpoints = [
-        "login": "/login",
-        "recipes": "/recipes"
-    ]
+    struct Endpoints {
+        static let login = "/login"
+        static let recipes = "/recipes"
+    }
+    
+    struct Segue {
+        static let loginSegue = "loginGoToList"
+        static let registerSegue = "registerGoToList"
+        static let rootSegue = "rootGoToList"
+        static let detailsSegue = "listGoToDetails"
+    }
 }

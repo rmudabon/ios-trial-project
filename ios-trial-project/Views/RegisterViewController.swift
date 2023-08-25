@@ -28,7 +28,7 @@ class RegisterViewController: UIViewController {
     }
 
     
-    @IBAction func loginPressed(_ sender: UIButton) {
+    @IBAction func registerPressed(_ sender: UIButton) {
         errorLabel.isHidden = true
         guard let username = usernameTextField.text, let password = passwordTextField.text else {
             return
@@ -37,7 +37,7 @@ class RegisterViewController: UIViewController {
             showError(with: Errors.login)
             registerButton.isEnabled = true
         }
-        disableLoginButton()
+        disableRegisterButton()
     }
     
     func showError(with errorText: Errors){
@@ -50,8 +50,8 @@ class RegisterViewController: UIViewController {
         errorLabel.isHidden = false
     }
     
-    func disableLoginButton() {
-        registerButton.setTitle("Logging in...", for: .disabled)
+    func disableRegisterButton() {
+        registerButton.setTitle("Registering...", for: .disabled)
         registerButton.isEnabled = false
     }
 }

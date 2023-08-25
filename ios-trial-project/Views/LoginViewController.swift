@@ -15,6 +15,8 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     
+    var networkManager = NetworkManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -24,7 +26,7 @@ class LoginViewController: UIViewController {
         passwordTextField.attributedPlaceholder = NSAttributedString(string: passwordPlaceholderText, attributes: [NSAttributedString.Key.foregroundColor : UIColor(named: "Placeholder")!])
         usernameTextField.delegate = self
         passwordTextField.delegate = self
-        
+        networkManager.delegate = self
     }
 
     
@@ -37,7 +39,10 @@ class LoginViewController: UIViewController {
             showError(with: Errors.login)
             loginButton.isEnabled = true
         }
-        disableLoginButton()
+        else {
+            disableLoginButton()
+            networkManager.login(username: username, password: password)
+        }
     }
     
     func showError(with errorText: Errors){
@@ -54,11 +59,36 @@ class LoginViewController: UIViewController {
         loginButton.setTitle("Logging in...", for: .disabled)
         loginButton.isEnabled = false
     }
+    
 }
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+}
+
+
+extension LoginViewController: NetworkManagerDelegate {
+    func networkManagerDidSendError(_ networkManager: NetworkManager, error errorMessage: String) {
+        errorLabel.text = "An issue occured."
+        loginButton.isEnabled = true
+    }
+    
+    func networkManagerDidSuccessfulRequest(_ networkManager: NetworkManager, optionalData data: Data?) {
+        guard let safeData = data else { return }
+        let decoder = JSONDecoder()
+        do {
+            let loginData = try decoder.decode([LoginInfo].self, from: safeData)
+            UserDefaults.standard.set(loginData.first?.username, forKey: "user")
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "loginGoToList", sender: self)
+            }
+        }
+        catch let error {
+            errorLabel.text = "An issue occured."
+            print(error.localizedDescription)
+        }
     }
 }

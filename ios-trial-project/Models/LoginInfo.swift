@@ -13,12 +13,3 @@ struct LoginInfo: Decodable {
     let token: String
     let isAdmin: Bool
 }
-
-struct Recipe: Codable {
-    let id: String
-    let createdAt: String
-    let name: String
-    let ingredients: [String]
-    let instructions: [String]
-    let description: String
-}
