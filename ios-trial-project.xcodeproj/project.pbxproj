@@ -82,6 +82,7 @@
 		A8CDBE6B2A94BFFA005A7A1F = {
 			isa = PBXGroup;
 			children = (
+				A8C42F9A2A9C7BD000C2BD27 /* README.md */,
 				A8CDBE762A94BFFA005A7A1F /* ios-trial-project */,
 				A8CDBE752A94BFFA005A7A1F /* Products */,
 			);
@@ -107,7 +108,6 @@
 				A8CDBE802A94BFFB005A7A1F /* Assets.xcassets */,
 				A8CDBE822A94BFFB005A7A1F /* LaunchScreen.storyboard */,
 				A8CDBE852A94BFFB005A7A1F /* Info.plist */,
-				A8C42F9A2A9C7BD000C2BD27 /* README.md */,
 			);
 			path = "ios-trial-project";
 			sourceTree = "<group>";
