@@ -37,6 +37,7 @@
 		A8C42F8F2A97A78800C2BD27 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		A8C42F912A9846BB00C2BD27 /* RecipeFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFormViewController.swift; sourceTree = "<group>"; };
 		A8C42F962A988BF900C2BD27 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		A8C42F9A2A9C7BD000C2BD27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A8CDBE742A94BFFA005A7A1F /* ios-trial-project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-trial-project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8CDBE772A94BFFA005A7A1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A8CDBE792A94BFFA005A7A1F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +107,7 @@
 				A8CDBE802A94BFFB005A7A1F /* Assets.xcassets */,
 				A8CDBE822A94BFFB005A7A1F /* LaunchScreen.storyboard */,
 				A8CDBE852A94BFFB005A7A1F /* Info.plist */,
+				A8C42F9A2A9C7BD000C2BD27 /* README.md */,
 			);
 			path = "ios-trial-project";
 			sourceTree = "<group>";
