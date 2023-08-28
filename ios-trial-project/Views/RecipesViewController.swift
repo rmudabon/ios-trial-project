@@ -71,6 +71,25 @@ class RecipesViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Log Out
+    
+    @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Log Out", message: "Do you want to log out of the app?", preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "Confirm", style: .destructive) { _ in
+            DispatchQueue.main.async {
+                UserDefaults.standard.removeObject(forKey: "user")
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        present(alert, animated: true)
+    }
 }
 
 extension RecipesViewController: UITableViewDataSource {

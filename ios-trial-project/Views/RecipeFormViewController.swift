@@ -26,6 +26,10 @@ class RecipeFormViewController: UIViewController {
         setFormAppearance()
         networkManager.delegate = self
         
+        if let recipeInfo = existingInfo {
+            navigationItem.title = "Edit Recipe"
+            initializeValues(recipe: recipeInfo)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +67,12 @@ class RecipeFormViewController: UIViewController {
         ]
         
         let jsonBody = try? JSONSerialization.data(withJSONObject: body)
-        networkManager.addRecipes(with: jsonBody)
+        if let recipeExists = existingInfo {
+            networkManager.editRecipe(with: jsonBody, id: recipeExists.id)
+        }
+        else {
+            networkManager.addRecipes(with: jsonBody)
+        }
         
         
     }
@@ -81,8 +90,16 @@ class RecipeFormViewController: UIViewController {
         instructionsTextView.layer.borderColor = UIColor(named: "Secondary")?.cgColor
     }
     
+    func initializeValues(recipe: Recipe){
+        nameTextField.text = recipe.name
+        descriptionTextView.text = recipe.description
+        ingredientsTextView.text = recipe.ingredients.joined(separator: "\n")
+        instructionsTextView.text = recipe.instructions.joined(separator: "\n")
+    }
+    
     func disableSubmit(){
-        submitButton.setTitle("Adding Recipe..", for: .disabled)
+        let title = existingInfo != nil ? "Editing Recipe..." : "Adding Recipe..."
+        submitButton.setTitle(title, for: .disabled)
         submitButton.isEnabled = false
     }
     
@@ -113,7 +130,15 @@ extension RecipeFormViewController: NetworkManagerDelegate {
     
     func networkManagerDidSuccessfulRequest(_ networkManager: NetworkManager, optionalData data: Data?) {
         DispatchQueue.main.async {
-            self.navigationController?.popViewController(animated: true)
+            let message = self.existingInfo != nil ? "Recipe successfully edited." : "Recipe successfuly added."
+            let successAlert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: "Confirm", style: .cancel) { _ in
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+            successAlert.addAction(confirmAction)
+            self.present(successAlert, animated: true)
         }
     }
     

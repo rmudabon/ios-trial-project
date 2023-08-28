@@ -83,7 +83,7 @@ extension LoginViewController: NetworkManagerDelegate {
             let loginData = try decoder.decode([LoginInfo].self, from: safeData)
             UserDefaults.standard.set(loginData.first?.username, forKey: "user")
             DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "loginGoToList", sender: self)
+                self.performSegue(withIdentifier: Constants.Segue.loginSegue, sender: self)
             }
         }
         catch let error {

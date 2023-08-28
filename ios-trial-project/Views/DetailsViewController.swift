@@ -17,6 +17,11 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UILabel!
     @IBOutlet weak var instructionsLabel: UILabel!
+    
+    @IBOutlet weak var editBarButton: UIBarButtonItem!
+    @IBOutlet weak var deleteBarButton: UIBarButtonItem!
+    var networkManager = NetworkManager()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,7 +35,15 @@ class DetailsViewController: UIViewController {
             descriptionLabel.text = safeRecipe.description
             ingredientsLabel.attributedText = bulletPointList(strings: safeRecipe.ingredients)
             instructionsLabel.attributedText = numberedList(strings: safeRecipe.instructions)
+            
+            if let currentUser = UserDefaults.standard.string(forKey: "user") {
+                if safeRecipe.author == currentUser {
+                    editBarButton.isEnabled = true
+                    deleteBarButton.isEnabled = true
+                }
+            }
         }
+        networkManager.delegate = self
     }
     
     func bulletPointList(strings: [String]) -> NSAttributedString {
@@ -74,4 +87,55 @@ class DetailsViewController: UIViewController {
                                   attributes: stringAttributes)
     }
 
+    @IBAction func editPressed(_ sender: UIBarButtonItem) {
+    }
+    
+    
+    @IBAction func deletePressed(_ sender: Any) {
+        let alert = UIAlertController(title: "Delete Recipe", message: "Are you sure you want to delete this recipe?\nThis action cannot be undone!", preferredStyle: .alert)
+        
+        let deleteAction = UIAlertAction(title: "Confirm", style: .destructive) { _ in
+            if let recipeID = self.recipe?.id {
+                self.networkManager.deleteRecipe(with: recipeID)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? RecipeFormViewController {
+            controller.existingInfo = recipe
+        }
+    }
+}
+
+extension DetailsViewController: NetworkManagerDelegate {
+    func networkManagerDidSendError(_ networkManager: NetworkManager, error errorMessage: String) {
+        DispatchQueue.main.async {
+            let errorAlert = UIAlertController(title: "Error", message: "There is an issue deleting the recipe.", preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: "Confirm", style: .cancel)
+            errorAlert.addAction(confirmAction)
+            self.present(errorAlert, animated: true)
+        }
+    }
+    
+    func networkManagerDidSuccessfulRequest(_ networkManager: NetworkManager, optionalData data: Data?) {
+        DispatchQueue.main.async {
+            let successAlert = UIAlertController(title: "Success", message: "Recipe successfully deleted.", preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: "Confirm", style: .cancel) { _ in
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+            successAlert.addAction(confirmAction)
+            self.present(successAlert, animated: true)
+        }
+    }
+    
+    
 }

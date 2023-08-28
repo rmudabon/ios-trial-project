@@ -15,6 +15,8 @@ class RegisterViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     
+    var networkManager = NetworkManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -24,7 +26,7 @@ class RegisterViewController: UIViewController {
         passwordTextField.attributedPlaceholder = NSAttributedString(string: passwordPlaceholderText, attributes: [NSAttributedString.Key.foregroundColor : UIColor(named: "Placeholder")!])
         usernameTextField.delegate = self
         passwordTextField.delegate = self
-        
+        networkManager.delegate = self
     }
 
     
@@ -37,7 +39,10 @@ class RegisterViewController: UIViewController {
             showError(with: Errors.login)
             registerButton.isEnabled = true
         }
-        disableRegisterButton()
+        else{
+            disableRegisterButton()
+            networkManager.register(username: username, password: password)
+        }
     }
     
     func showError(with errorText: Errors){
@@ -64,3 +69,27 @@ extension RegisterViewController: UITextFieldDelegate {
     }
 }
 
+extension RegisterViewController: NetworkManagerDelegate {
+    func networkManagerDidSendError(_ networkManager: NetworkManager, error errorMessage: String) {
+        errorLabel.text = "An issue occured."
+        registerButton.isEnabled = true
+    }
+    
+    func networkManagerDidSuccessfulRequest(_ networkManager: NetworkManager, optionalData data: Data?) {
+        guard let safeData = data else { return }
+        let decoder = JSONDecoder()
+        do {
+            let registerData = try decoder.decode(LoginInfo.self, from: safeData)
+            UserDefaults.standard.set(registerData.username, forKey: "user")
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: Constants.Segue.registerSegue, sender: self)
+            }
+        }
+        catch let error {
+            DispatchQueue.main.async {
+                self.errorLabel.text = "An issue occured."
+                print(error.localizedDescription)
+            }
+        }
+    }
+}

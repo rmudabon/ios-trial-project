@@ -24,7 +24,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="42A-31-L1J">
                                         <rect key="frame" x="46.666666666666657" y="322.66666666666669" width="300" height="207.00000000000006"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ing-Cookbook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cT-ZP-JFh">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingeneer's Cookbook" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cT-ZP-JFh">
                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="41.666666666666664"/>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                                 <color key="textColor" name="Secondary"/>
@@ -130,7 +130,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Available Recipes" id="xdv-Ke-5A7">
                         <rightBarButtonItems>
-                            <barButtonItem title="Log Out" id="Pad-UH-ido"/>
+                            <barButtonItem title="Log Out" id="Pad-UH-ido">
+                                <connections>
+                                    <action selector="logoutPressed:" destination="lgV-Br-36O" id="2Gq-l5-K79"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Add" id="Dgi-sC-dAL">
                                 <connections>
                                     <segue destination="06f-oB-pwC" kind="show" id="Gl3-be-DxA"/>
@@ -164,7 +168,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ndT-e8-XS8" userLabel="Name View">
                                                 <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EMu-nI-LDP">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EMu-nI-LDP">
                                                         <rect key="frame" x="28" y="0.0" width="337" height="42"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                                         <color key="textColor" name="Secondary"/>
@@ -395,15 +399,31 @@
                             <constraint firstItem="11p-eU-Qel" firstAttribute="bottom" secondItem="JWb-on-anh" secondAttribute="bottom" id="zYt-ax-X8L"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="UfO-bS-e6t"/>
+                    <navigationItem key="navigationItem" id="UfO-bS-e6t">
+                        <rightBarButtonItems>
+                            <barButtonItem enabled="NO" title="Delete" id="2c9-dC-Uz6">
+                                <color key="tintColor" red="0.55686277149999996" green="0.1607843041" blue="0.14509806040000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="deletePressed:" destination="0fj-Nz-knZ" id="jly-Xk-kxc"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem enabled="NO" title="Edit" id="yVF-F3-gXj">
+                                <connections>
+                                    <action selector="editPressed:" destination="0fj-Nz-knZ" id="ZHg-Cv-kM0"/>
+                                    <segue destination="06f-oB-pwC" kind="show" id="HRO-4W-GLT"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
                         <outlet property="authorLabel" destination="qLO-jL-QtO" id="hv6-4T-Uc1"/>
                         <outlet property="dateLabel" destination="b6z-4M-mah" id="Rsa-PZ-F2Q"/>
+                        <outlet property="deleteBarButton" destination="2c9-dC-Uz6" id="td8-aY-lDS"/>
                         <outlet property="descriptionLabel" destination="z4b-uC-6Np" id="QlE-Vi-h2C"/>
+                        <outlet property="editBarButton" destination="yVF-F3-gXj" id="cS3-a3-Xoa"/>
                         <outlet property="ingredientsLabel" destination="sjt-nm-npd" id="nmT-3y-UFy"/>
                         <outlet property="instructionsLabel" destination="9yq-2H-x3M" id="PTQ-qw-hCd"/>
                         <outlet property="titleLabel" destination="EMu-nI-LDP" id="62W-ao-Uuy"/>
-                        <segue destination="06f-oB-pwC" kind="show" identifier="detailsGoToForm" id="h9W-tR-All"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="THV-wK-w6R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -663,7 +683,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="08r-wC-AAd">
                                         <rect key="frame" x="46.666666666666657" y="322.66666666666669" width="300" height="207.00000000000006"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ing-Cookbook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gI-T7-QD5">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingeneer's Cookbook" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gI-T7-QD5">
                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="41.666666666666664"/>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                                 <color key="textColor" name="Secondary"/>
@@ -748,7 +768,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="zgC-xg-G21">
                                         <rect key="frame" x="46.666666666666657" y="350" width="300" height="152.33333333333337"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ing-Cookbook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf9-PB-SaM">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingeneer's Cookbook" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf9-PB-SaM">
                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="41.666666666666664"/>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                                 <color key="textColor" name="Secondary"/>
@@ -833,8 +853,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="h9W-tR-All"/>
-        <segue reference="Gxz-ep-e07"/>
+        <segue reference="HRO-4W-GLT"/>
+        <segue reference="wZy-xB-7wQ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <namedColor name="Base">
