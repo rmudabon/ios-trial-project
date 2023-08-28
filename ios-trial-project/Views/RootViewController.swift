@@ -13,6 +13,9 @@ class RootViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        if let _ = UserDefaults.standard.string(forKey: "user"){
+            performSegue(withIdentifier: Constants.Segue.rootSegue, sender: self)
+        }
     }
     
 
